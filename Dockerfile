@@ -10,6 +10,7 @@ RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh 
 FROM golang AS builder
 COPY ./ ./
 RUN make prepare build-linux
+RUN make build-default
 
 # release
 FROM alpine AS app

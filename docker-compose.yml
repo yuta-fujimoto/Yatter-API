@@ -21,7 +21,8 @@ services:
       dockerfile: Dockerfile
       target: dev
     working_dir: "/work/yatter-backend-go"
-    command: ["air"]
+    command: ["make", "build-default"]
+    tty: true
     volumes:
       - ".:/work/yatter-backend-go"
       - "./.data/go-pkg:/go/pkg/mod/cache"
