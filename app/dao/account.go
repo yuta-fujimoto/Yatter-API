@@ -38,7 +38,7 @@ func (r *account) FindByUsername(ctx context.Context, username string) (*object.
 	return entity, nil
 }
 
-func (r *account) CreateUser(ctx context.Context, user *object.Account) error {
+func (r *account) Create(ctx context.Context, user *object.Account) (error) {
 	// it may not be good to rely on DB unique key...(hide logic,)
 	_, err := r.db.ExecContext(ctx, "INSERT INTO account (username, password_hash, display_name, avatar, header, note) VALUES (?, ?, ?, ?, ?, ?)",
 		user.Username, user.PasswordHash, user.DisplayName, user.Avatar, user.Header, user.Note)

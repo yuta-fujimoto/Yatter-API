@@ -37,7 +37,7 @@ func (h *handler) Create(w http.ResponseWriter, r *http.Request) {
 	newAccount.SetPassword(req.Password)
 
 	accountDomain := h.app.Dao.Account() // domain/repository の取得
-	err := accountDomain.CreateUser(ctx, newAccount)
+	err := accountDomain.Create(ctx, newAccount)
 	if err != nil {
 		httperror.InternalServerError(w, err)
 		return

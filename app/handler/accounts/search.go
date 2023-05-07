@@ -24,6 +24,11 @@ func (h* handler) SearchUserByName(w http.ResponseWriter, r *http.Request) {
 		return 
 	}
 
+	if account == nil {
+		httperror.Error(w, http.StatusNotFound)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(account); err != nil {
 		httperror.InternalServerError(w, err)
