@@ -3,6 +3,7 @@ package object
 type (
 	StatusID = int64
 
+	// TODO: correct json property
 	Status struct {
 		// The internal ID of the status
 		ID StatusID `json:"-"`

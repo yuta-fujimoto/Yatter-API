@@ -42,6 +42,27 @@ func (r *status) FindById(ctx context.Context, id object.StatusID) (*object.Stat
 	return entity, nil
 } 
 
+func (r *status) FindMany(ctx context.Context, sinceId object.StatusID, maxId object.StatusID, limit int64, onlyMedia bool) (*[]object.Status, error) {
+	entity := new([]object.Status)
+	rows, err := r.db.QueryContext(ctx, "SELECT id, account_id, content, create_at FROM status WHERE id > ? AND id < ? LIMIT ?", sinceId, maxId, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var status object.Status
+		err := rows.Scan(&status.ID, &status.AccountID, &status.Content, &status.CreateAt)
+		if err != nil {
+			return nil, err
+		}
+
+		*entity = append(*entity, status)
+	}
+
+	return entity, nil
+}
+
+
 func (r *status) Delete(ctx context.Context, id object.StatusID) error {
 	_, err := r.db.ExecContext(ctx, "DELETE FROM status WHERE id=?", id)
 	return err
