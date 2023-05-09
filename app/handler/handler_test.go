@@ -12,6 +12,7 @@ import (
 
 	"yatter-backend-go/app/app"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -61,7 +62,7 @@ func TestAccountRegistration(t *testing.T) {
 }
 
 func setup(t *testing.T) *C {
-	app, err := app.NewApp()
+	app, mock, err := app.NewAppMock()
 	if err != nil {
 		panic(err)
 	}
@@ -74,12 +75,14 @@ func setup(t *testing.T) *C {
 
 	return &C{
 		App:    app,
+		mock:   &mock,
 		Server: server,
 	}
 }
 
 type C struct {
 	App    *app.App
+	mock   *sqlmock.Sqlmock
 	Server *httptest.Server
 }
 

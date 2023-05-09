@@ -5,6 +5,7 @@ import (
 	"log"
 	"yatter-backend-go/app/domain/repository"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -33,6 +34,15 @@ func New(config DBConfig) (Dao, error) {
 	}
 
 	return &dao{db: db}, nil
+}
+
+func NewMock() (Dao, sqlmock.Sqlmock, error) {
+	db, mock, err := initDbMock()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &dao{db: db}, mock, nil
 }
 
 func (d *dao) Account() repository.Account {

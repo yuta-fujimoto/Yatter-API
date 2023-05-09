@@ -3,6 +3,7 @@ package dao
 import (
 	"fmt"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -20,4 +21,13 @@ func initDb(config DBConfig) (*sqlx.DB, error) {
 	}
 
 	return db, nil
+}
+
+func initDbMock() (*sqlx.DB,sqlmock.Sqlmock, error) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		return nil, nil, err
+	}
+	dbx := sqlx.NewDb(db, "in memory")
+	return dbx, mock, nil
 }

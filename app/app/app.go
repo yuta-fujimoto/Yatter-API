@@ -3,6 +3,8 @@ package app
 import (
 	"yatter-backend-go/app/config"
 	"yatter-backend-go/app/dao"
+
+	"github.com/DATA-DOG/go-sqlmock"
 )
 
 // Dependency manager for whole application
@@ -21,4 +23,13 @@ func NewApp() (*App, error) {
 	}
 
 	return &App{Dao: dao}, nil
+}
+
+func NewAppMock() (*App, sqlmock.Sqlmock, error) {
+	dao, mock, err := dao.NewMock()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &App{Dao: dao}, mock, nil
 }
